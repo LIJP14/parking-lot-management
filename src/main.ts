@@ -6,6 +6,7 @@ import store from './store';
 import {
     Layout,
     Menu,
+    Dropdown,
     Input,
     Button
 } from "ant-design-vue";
@@ -17,6 +18,7 @@ app.use(router);
 
 app.use(Layout)
     .use(Menu)
+    .use(Dropdown)
     .use(Input)
     .use(Button);
 
