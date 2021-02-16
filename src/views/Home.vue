@@ -1,47 +1,78 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-      <div style="height: 100px;border: 1px solid red;">
-          {{ msg }}
-      </div>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+    <div class="pane-title">快捷方式</div>
+    <div class="pane-body">
+        <div class="link-card">
+            <router-link to="/parking-lot/management" class="link-card-icon">
+                <VideoCameraFilled />
+            </router-link>
+            <h6>车场管理</h6>
+        </div>
+
+        <div class="link-card">
+            <router-link to="/lane/management" class="link-card-icon">
+                <VideoCameraFilled />
+            </router-link>
+            <h6>车道管理</h6>
+        </div>
+
+        <div class="link-card">
+            <router-link to="/" class="link-card-icon">
+                <StockOutlined />
+            </router-link>
+            <h6>出入场记录</h6>
+        </div>
+
+        <div class="link-card">
+            <router-link to="/" class="link-card-icon">
+                <StockOutlined />
+            </router-link>
+            <h6>远程开闸记录</h6>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-
 import { defineComponent } from "vue";
+
+import { VideoCameraFilled, StockOutlined } from '@ant-design/icons-vue';
+
 export default defineComponent({
     data () {
         return {
-            msg: 'testHome'
+
         };
     },
-    components: { HelloWorld }
+    components: { VideoCameraFilled, StockOutlined }
 });
-
-// @Options({
-//     components: {
-//         HelloWorld
-//     }
-// })
-// export default class Home extends Vue {
-//     a () {
-//         let ab = 90;
-//         let b = 78;
-//
-//
-//
-//         for (let i = 0; i < 100; i++) {
-//             if (i === b) {
-//                 b = i;
-//                 if (ab === b + i) {
-//                     ab = i * 10;
-//                 }
-//             }
-//         }
-//     }
-// }
 </script>
+
+<style scoped lang="scss">
+    .pane-body {
+        display: flex;
+        /*flex-direction: row;*/
+        flex-wrap: wrap;
+
+        .link-card {
+            text-align: center;
+            width: 120px;
+            margin: 0 20px 10px;
+
+
+            .link-card-icon {
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 70px;
+                font-size: 30px;
+                background-color: #ececec;
+                color: inherit;
+            }
+
+            h6 {
+                margin: 7px 0;
+            }
+        }
+    }
+
+</style>

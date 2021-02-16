@@ -1,8 +1,9 @@
 import { RouteRecordRaw } from "vue-router";
 
-// import(/* webpackChunkName: "about" */ );
+// import(/* webpackChunkName: "home" */ );
 const Home = () => import('../views/Home.vue');
-const About = () => import('../views/About.vue');
+const ParkingLotManagement = () => import('../views/parking-lot/ParkingLotManagement.vue');
+const LaneManagement = () => import('../views/lane/LaneManagement.vue');
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -11,9 +12,14 @@ const routes: Array<RouteRecordRaw> = [
         component: Home
     },
     {
-        path: '/about',
-        name: 'About',
-        component: About
+        path: '/parking-lot/management',
+        name: 'ParkingLotManagement',
+        component: ParkingLotManagement
+    },
+    {
+        path: '/lane/management',
+        name: 'LaneManagement',
+        component: LaneManagement
     }
 ];
 

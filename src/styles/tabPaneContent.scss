@@ -1,0 +1,17 @@
+.tab-pane-content {
+    background-color: #ffffff;
+    margin: 0 16px 16px;
+
+    .pane-title {
+        padding: 10px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .pane-body {
+        padding: 20px;
+
+        .inline-form-item {
+            width: 150px;
+        }
+    }
+}

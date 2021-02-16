@@ -1,11 +1,4 @@
 <template>
-    <!--<div id="nav">-->
-    <!--    <router-link to="/">Home</router-link> |-->
-    <!--    <router-link to="/about">About</router-link>-->
-    <!--</div>-->
-
-    <!--<router-view/>-->
-
     <a-layout class="app-layout">
         <a-layout-sider
             v-model:collapsed="collapsed"
@@ -18,7 +11,12 @@
                 <span class="title" v-show="!collapsed">物微联</span>
             </div>
 
-            <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
+            <a-menu
+                v-model:selectedKeys="selectedKeys"
+                v-model:openKeys="openKeys"
+                theme="dark"
+                mode="inline"
+                :inline-collapsed="false">
                 <a-sub-menu key="sub1" @titleClick="titleClick" >
                     <template #title>
                         <span>
@@ -33,8 +31,13 @@
                     </template>
 
                     <a-sub-menu key="sub1-1" title="车场管理" @titleClick="titleClick" >
-                        <a-menu-item key="1">车场信息</a-menu-item>
-                        <a-menu-item key="2">车道管理</a-menu-item>
+                        <a-menu-item key="1" @click="menuItemClick('1')">
+                            <router-link to="/">车场信息</router-link>
+
+                        </a-menu-item>
+                        <a-menu-item key="2" @click="menuItemClick('2')">
+                            <router-link to="/about">车道管理</router-link>
+                        </a-menu-item>
                     </a-sub-menu>
 
 
@@ -46,7 +49,6 @@
                     <a-sub-menu key="sub1-3" title="用户管理" @titleClick="titleClick" >
                         <a-menu-item key="5">用户管理</a-menu-item>
                     </a-sub-menu>
-
 
                     <a-sub-menu key="sub1-4" title="统计信息" @titleClick="titleClick" >
                         <a-menu-item key="6">车牌号统计</a-menu-item>
@@ -68,10 +70,10 @@
                 <layout-header-menu style="float: right;"></layout-header-menu>
             </a-layout-header>
 
-            <a-layout-content
-                :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
-            >
-                Content
+            <a-layout-content>
+                <layout-content
+                    :click-menu="menu"
+                />
             </a-layout-content>
         </a-layout>
 
@@ -80,23 +82,47 @@
 </template>
 
 <script lang="ts">
-import { CloudOutlined, MailOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
+import { CloudOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 
 import { defineComponent, ref } from 'vue';
 
-import layoutHeaderMenu from './views/LayoutHeaderMenu.vue';
+import LayoutHeaderMenu from './views/LayoutHeaderMenu.vue';
+import LayoutContent from './views/LayoutContent.vue';
 
 export default defineComponent({ // UserOutlined, VideoCameraOutlined, UploadOutlined,MailOutlined
-    components: { CloudOutlined, MenuUnfoldOutlined, MenuFoldOutlined, layoutHeaderMenu },
+    name: 'App',
+    components: { CloudOutlined, MenuUnfoldOutlined, MenuFoldOutlined, LayoutHeaderMenu, LayoutContent },
     setup () {
         return {
             selectedKeys: ref<string[]>(['sub1']),
+            openKeys: ref<string[]>(['sub1', 'sub1-1']),
             collapsed: ref<boolean>(false)
         };
     },
+
+    data () {
+        const menus: Array<string> = [];
+        return {
+            menus,
+            menu: ''
+        };
+    },
+
     methods: {
         titleClick (e: Event) {
             console.log('titleClick', e);
+        },
+
+        menuItemClick (key: string) {
+            // if (this.menus.indexOf(key) === -1) {
+            //     this.menus.push(key);
+            // }
+            // this.menus.indexOf(key) === -1
+            //     ? this.menus.push(key)
+            //     : null;
+
+            this.menu = key;
+            // console.log(this.menus);
         }
     }
 });
