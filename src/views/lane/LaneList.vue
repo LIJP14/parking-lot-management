@@ -8,7 +8,7 @@
                 v-model:value="form.id"
                 allowClear
                 placeholder="请选择车场"
-                @change="selectChange"
+                @change="idChange"
                 class="inline-form-item"
             >
             </a-select>
@@ -17,9 +17,39 @@
         <a-form-item>
             <a-input
                 v-model:value="form.name"
-                placeholder="请输入车场名称"
+                placeholder="请输入车道名称"
                 class="inline-form-item"
             />
+        </a-form-item>
+
+        <a-form-item>
+            <a-input
+                v-model:value="form.cameraId"
+                placeholder="请输入相机序列号"
+                class="inline-form-item"
+            />
+        </a-form-item>
+
+        <a-form-item>
+            <a-select
+                v-model:value="form.laneType"
+                allowClear
+                placeholder="车道类型"
+                @change="laneTypeChange"
+                class="inline-form-item"
+            >
+            </a-select>
+        </a-form-item>
+
+        <a-form-item>
+            <a-select
+                v-model:value="form.cameraType"
+                allowClear
+                placeholder="相机类型"
+                @change="cameraTypeChange"
+                class="inline-form-item"
+            >
+            </a-select>
         </a-form-item>
 
         <a-form-item>
@@ -45,6 +75,7 @@
         bordered
         :pagination="false"
         :row-selection="rowSelection"
+        :scroll="{x: true}"
         @change="tableChange"
         class="list-table"
     >
@@ -71,8 +102,22 @@
             </div>
         </template>
 
+        <template #laneType>
+            <!--<a-tag color="green">出口</a-tag>-->
+            <a-tag>Tag 1</a-tag>
+            <a-tag color="#87d068">tag</a-tag>
+        </template>
+
         <template #operation>
-            <a-button type="primary" html-type="submit">
+            <a-button type="primary">
+                <template #icon> <FieldTimeOutlined /> </template> 校准时间
+            </a-button>
+
+            <a-button type="primary">
+                <template #icon> <SettingOutlined /> </template> 相机配置
+            </a-button>
+
+            <a-button type="primary">
                 <template #icon> <EditOutlined /> </template> 编辑
             </a-button>
 
@@ -96,7 +141,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { SearchOutlined, DeleteOutlined, ExportOutlined, QrcodeOutlined, PrinterOutlined, EditOutlined } from "@ant-design/icons-vue";
+import { SearchOutlined, DeleteOutlined, ExportOutlined, QrcodeOutlined, PrinterOutlined, EditOutlined, FieldTimeOutlined, SettingOutlined } from "@ant-design/icons-vue";
 
 import { ColumnProps } from 'ant-design-vue/es/table/interface';
 
@@ -110,27 +155,17 @@ interface DataType {
     address: string;
 }
 
-// type TableDataType = {
-//     key: number;
-//     name: string;
-//     age: number;
-//     street: string;
-//     building: string;
-//     number: number;
-//     companyAddress: string;
-//     companyName: string;
-//     gender: string;
-// };
-
-
 export default defineComponent({
-    name: "ParkingLotList",
-    components: { SearchOutlined, DeleteOutlined, ExportOutlined, QrcodeOutlined, PrinterOutlined, EditOutlined },
+    name: "LaneList",
+    components: { SearchOutlined, DeleteOutlined, ExportOutlined, QrcodeOutlined, PrinterOutlined, EditOutlined, FieldTimeOutlined, SettingOutlined },
     data () {
         return {
             form: {
                 id: undefined,
-                name: ''
+                name: '',
+                cameraId: '',
+                laneType: undefined,
+                cameraType: undefined
             },
 
             currentPage: 1,
@@ -138,6 +173,7 @@ export default defineComponent({
             totalSize: 50,
 
             rowSelection: {
+                fixed: true,
                 onChange: this.rowSelectChange
             },
 
@@ -159,29 +195,39 @@ export default defineComponent({
                     dataIndex: 'y'
                 },
                 {
-                    title: '联系人',
+                    title: '车道名称',
                     align: 'center',
                     dataIndex: 'z'
                 },
                 {
-                    title: '联系方式',
+                    title: '车道类型',
                     align: 'center',
-                    dataIndex: 'x'
+                    slots: { customRender: 'laneType' }
                 },
                 {
-                    title: '详细地址',
+                    title: '相机型号',
                     align: 'center',
-                    dataIndex: 'x'
+                    dataIndex: 'x1'
                 },
                 {
-                    title: '创建时间',
+                    title: '道闸端口号',
                     align: 'center',
-                    dataIndex: 'x',
-                    sorter: true
+                    dataIndex: 'x2'
+                },
+                {
+                    title: '相机序列号',
+                    align: 'center',
+                    dataIndex: 'x3'
+                },
+                {
+                    title: '通讯状态',
+                    align: 'center',
+                    dataIndex: 'x4'
                 },
                 {
                     title: '操作',
                     align: 'center',
+                    fixed: 'right',
                     slots: { customRender: 'operation' }
                 }
             ],
@@ -201,8 +247,25 @@ export default defineComponent({
     },
 
     methods: {
-        selectChange () {
+        /**
+         * 车场回调
+         */
+        idChange () {
             console.log(this.form.id);
+        },
+
+        /**
+         * 车道类型回调
+         */
+        laneTypeChange () {
+            console.log(this.form.laneType);
+        },
+
+        /**
+         * 相机类型回调
+         */
+        cameraTypeChange () {
+            console.log(this.form.cameraType);
         },
 
         /**
@@ -239,9 +302,11 @@ export default defineComponent({
             console.log(current);
         }
     }
-
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+    ::v-deep .ant-table td {
+        white-space: nowrap;
+    }
 </style>

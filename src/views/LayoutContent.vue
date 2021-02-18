@@ -1,10 +1,12 @@
 <template>
     <a-tabs
-        v-model:activeKey="activeTab"
+        v-model:activeKey="activeKey"
         type="editable-card"
         hide-add
         :animated="false"
         @edit="onEdit"
+        @tabClick="tabClick"
+        @change="tabChange"
         class="layout-tabs"
     >
         <a-tab-pane key="home" :closable="false">
@@ -61,7 +63,7 @@ type TabPane = {
     }
 })
 export default class LayoutContent extends Vue {
-    activeTab = 'home';
+    activeKey = 'home';
     menus: Array<string> = [];
 
     clickMenu!: string;
@@ -98,7 +100,7 @@ export default class LayoutContent extends Vue {
         //     arr.push(new TabPane(this.clickMenu, `title--${this.clickMenu}`));
         // }
 
-        this.activeTab = this.clickMenu;
+        this.activeKey = this.clickMenu;
 
         return this.menus.map(item => {
             // return new TabPane(item, `t-${item}`);
@@ -108,6 +110,16 @@ export default class LayoutContent extends Vue {
 
     onEdit (e: object) {
         console.log(e);
+    }
+
+    tabClick () {
+        if (this.activeKey === 'home') {
+            this.$router.push({ name: 'Home' });
+        }
+    }
+
+    tabChange (activeKey: string) {
+        console.log(activeKey);
     }
 };
 </script>

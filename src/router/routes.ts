@@ -4,6 +4,8 @@ import { RouteRecordRaw } from "vue-router";
 const Home = () => import('../views/Home.vue');
 const ParkingLotManagement = () => import('../views/parking-lot/ParkingLotManagement.vue');
 const LaneManagement = () => import('../views/lane/LaneManagement.vue');
+const UsageRecord = () => import('../views/usage-record/UsageRecord.vue');
+const OpenGateRecord = () => import('../views/open-gate-record/OpenGateRecord.vue');
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -20,6 +22,16 @@ const routes: Array<RouteRecordRaw> = [
         path: '/lane/management',
         name: 'LaneManagement',
         component: LaneManagement
+    },
+    {
+        path: '/usage-record',
+        name: 'UsageRecord',
+        component: UsageRecord
+    },
+    {
+        path: '/open-gate-record',
+        name: 'OpenGateRecord',
+        component: OpenGateRecord
     }
 ];
 

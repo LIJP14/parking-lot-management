@@ -16,14 +16,14 @@
         </div>
 
         <div class="link-card">
-            <router-link to="/" class="link-card-icon">
+            <router-link to="/usage-record" class="link-card-icon">
                 <StockOutlined />
             </router-link>
             <h6>出入场记录</h6>
         </div>
 
         <div class="link-card">
-            <router-link to="/" class="link-card-icon">
+            <router-link to="/open-gate-record" class="link-card-icon">
                 <StockOutlined />
             </router-link>
             <h6>远程开闸记录</h6>

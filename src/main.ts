@@ -6,6 +6,8 @@ import store from './store';
 import './styles/index.scss';
 import {
     Button,
+    ConfigProvider,
+    DatePicker,
     Dropdown,
     Form,
     Input,
@@ -15,7 +17,8 @@ import {
     Select,
     Space,
     Table,
-    Tabs
+    Tabs,
+    Tag
 } from "ant-design-vue";
 
 
@@ -25,6 +28,8 @@ app.use(router);
 
 
 app.use(Button)
+    .use(ConfigProvider)
+    .use(DatePicker)
     .use(Dropdown)
     .use(Form)
     .use(Input)
@@ -34,7 +39,8 @@ app.use(Button)
     .use(Select)
     .use(Space)
     .use(Table)
-    .use(Tabs);
+    .use(Tabs)
+    .use(Tag);
 
 
 app.mount('#app');
