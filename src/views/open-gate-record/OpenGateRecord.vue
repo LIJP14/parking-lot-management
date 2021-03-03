@@ -15,6 +15,7 @@ import { Options, Vue } from 'vue-class-component';
 import RecordList from './RecordList.vue';
 
 @Options({
+    name: 'OpenGateRecord',
     components: { RecordList }
 })
 export default class OpenGateRecord extends Vue {

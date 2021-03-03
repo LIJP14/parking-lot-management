@@ -19,7 +19,7 @@ import ParkingLotList from './ParkingLotList.vue';
 import ParkingLotCreate from './ParkingLotCreate.vue';
 
 export default defineComponent({
-    name: 'ParkingLogManagement',
+    name: 'ParkingLotManagement',
     components: { ParkingLotList, ParkingLotCreate },
     data () {
         return {

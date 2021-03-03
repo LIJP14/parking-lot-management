@@ -4,21 +4,22 @@
         type="editable-card"
         hide-add
         :animated="false"
-        @edit="onEdit"
+        @edit="tabEdit"
         @tabClick="tabClick"
         @change="tabChange"
         class="layout-tabs"
     >
-        <a-tab-pane key="home" :closable="false">
+        <a-tab-pane key="Home" :closable="false">
             <template #tab> <HomeOutlined /> </template>
         </a-tab-pane>
 
         <a-tab-pane
-            v-for="pane in tabPanes"
-            :key="pane.key"
-            :tab="pane.title"
+            v-for="(pane) in cachedRoutes"
+            :key="pane"
+            :tab="pane"
         />
 
+        <!--todo 暂时不删-->
         <!--<template #tabBarExtraContent>-->
         <!--    <a-dropdown>-->
         <!--        <span class="ant-dropdown-link" @click.prevent style="display: inline-block;width: 26px;">-->
@@ -32,12 +33,17 @@
         <!--            </a-menu>-->
         <!--        </template>-->
         <!--    </a-dropdown>-->
-
         <!--</template>-->
+        <!--todo end-->
     </a-tabs>
 
     <div class="tab-pane-content">
-        <router-view />
+        {{ cachedRoutes }}
+        <router-view v-slot="{ Component }">
+            <keep-alive :include="cachedRoutes" :exclude="['Home']">
+                <component :is="Component" />
+            </keep-alive>
+        </router-view>
     </div>
 </template>
 
@@ -46,11 +52,7 @@ import { Options, Vue } from 'vue-class-component';
 
 import { HomeOutlined, DownOutlined } from '@ant-design/icons-vue';
 
-
-type TabPane = {
-    key: string;
-    title: string;
-};
+import { Payload } from '@/store/route-cache';
 
 
 @Options({
@@ -58,63 +60,74 @@ type TabPane = {
         HomeOutlined,
         DownOutlined
     },
-    props: {
-        clickMenu: String
+
+    watch: {
+        $route () {
+            this.activeKey = this.$route.name as string;
+            this.addTab();
+        }
     }
 })
-export default class LayoutContent extends Vue {
-    activeKey = 'home';
-    menus: Array<string> = [];
+export default class AppContent extends Vue {
+    activeKey = 'Home';
 
-    clickMenu!: string;
-
-
-    created () {
-        // for (let i = 0; i < 15; i++) {
-        //     this.tabPanes.push(new TabPane(String(i), `title_${i}`));
-        // }
+    get cachedRoutes () {
+        return this.$store.state.routeCache.cachedRoutes;
     }
 
-    get tabPanes (): Array<TabPane> {
-        console.log(this.clickMenu);
 
-        if (!this.clickMenu) {
-            return [];
+    /**
+     * 添加 tab 标签页
+     */
+    addTab (): void {
+        if (this.$route.name === 'Home') {
+            return;
         }
 
-        let bool = false;
-        for (let i = 0; i < this.menus.length; i++) {
-            if (this.menus[i] === this.clickMenu) {
-                bool = true;
-            }
-        }
-
-        if (!bool) {
-            this.menus.push(this.clickMenu);
-        }
-
-
-
-        // const arr: Array<TabPane> = [];
-        // if (!bool) {
-        //     arr.push(new TabPane(this.clickMenu, `title--${this.clickMenu}`));
-        // }
-
-        this.activeKey = this.clickMenu;
-
-        return this.menus.map(item => {
-            // return new TabPane(item, `t-${item}`);
-            return { key: item, title: `t-${item}` };
-        });
+        const payload: Payload = {
+            route: this.$route.name as string
+        };
+        this.$store.commit('routeCache/addCachedRoute', payload);
     }
 
-    onEdit (e: object) {
-        console.log(e);
+    /**
+     * 删除 tab 标签页
+     * @param targetKey 要删除的 tab 标签
+     */
+    deleteTab (targetKey: string): void {
+        const index = this.cachedRoutes.indexOf(targetKey);
+
+        const payload: Payload = {
+            route: targetKey
+        };
+        this.$store.commit('routeCache/delCachedRoute', payload);
+
+        if (targetKey !== this.activeKey) {
+            return;
+        }
+
+        if (this.cachedRoutes.length) {
+            this.activeKey = index === this.cachedRoutes.length ? this.cachedRoutes[index - 1] : this.cachedRoutes[index];
+        } else {
+            this.activeKey = 'Home';
+        }
+
+        // 手动触发点击事件
+        this.tabClick(this.activeKey);
     }
 
-    tabClick () {
-        if (this.activeKey === 'home') {
-            this.$router.push({ name: 'Home' });
+    tabClick (tabPane: string): void {
+        this.$router.push({ name: tabPane });
+    }
+
+    /**
+     * 新增和删除页签的回调
+     * @param targetKey
+     * @param action
+     */
+    tabEdit (targetKey: string, action: string): void {
+        if (action === 'remove') {
+            this.deleteTab(targetKey);
         }
     }
 
@@ -125,7 +138,7 @@ export default class LayoutContent extends Vue {
 </script>
 
 <style scoped lang="scss">
-    .layout-tabs ::v-deep .ant-tabs-top-bar {
+    .layout-tabs :deep .ant-tabs-top-bar {
         background-color: #ffffff;
         border-top: 1px solid #f0f0f0;
 
@@ -135,6 +148,4 @@ export default class LayoutContent extends Vue {
             margin-top: -1px !important;
         }
     }
-
-
 </style>

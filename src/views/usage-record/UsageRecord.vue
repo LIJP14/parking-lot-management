@@ -15,6 +15,7 @@ import { Options, Vue } from 'vue-class-component';
 import UsageList from './UsageList.vue';
 
 @Options({
+    name: 'UsageRecord',
     components: { UsageList }
 })
 export default class UsageRecord extends Vue {

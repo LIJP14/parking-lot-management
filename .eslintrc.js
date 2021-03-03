@@ -54,6 +54,8 @@ module.exports = {
 
         // "consistent-return": 0, // return 后面是否允许省略
 
+        "@typescript-eslint/no-empty-interface": 1
+
 
     },
 

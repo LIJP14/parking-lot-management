@@ -37,6 +37,7 @@ import { defineComponent } from "vue";
 import { VideoCameraFilled, StockOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
+    name: 'Home',
     data () {
         return {
 

@@ -152,6 +152,7 @@ interface DataType {
 
 
 @Options({
+    name: 'RecordList',
     components: { SearchOutlined, DeleteOutlined, ExportOutlined, QrcodeOutlined, PrinterOutlined }
 })
 export default class RecordList extends Vue {

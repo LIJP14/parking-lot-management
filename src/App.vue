@@ -1,6 +1,6 @@
 <template>
     <a-config-provider :locale="locale">
-        <LayoutSider />
+        <AppLayout />
     </a-config-provider>
 </template>
 
@@ -8,11 +8,11 @@
 import { defineComponent } from 'vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 
-import LayoutSider from '@/views/LayoutSider.vue';
+import AppLayout from '@/views/AppLayout.vue';
 
 export default defineComponent({
     name: 'App',
-    components: { LayoutSider },
+    components: { AppLayout },
     data () {
         return {
             locale: zhCN

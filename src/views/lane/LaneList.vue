@@ -306,7 +306,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-    ::v-deep .ant-table td {
-        white-space: nowrap;
-    }
+    /*:deep .ant-table td {*/
+    /*    white-space: nowrap;*/
+    /*}*/
 </style>

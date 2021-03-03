@@ -70,13 +70,11 @@
                 />
                 <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
 
-                <layout-header-menu style="float: right;"></layout-header-menu>
+                <app-tools style="float: right;"></app-tools>
             </a-layout-header>
 
             <a-layout-content>
-                <layout-content
-                    :click-menu="menu"
-                />
+                <app-content />
             </a-layout-content>
         </a-layout>
 
@@ -87,12 +85,12 @@
 import { defineComponent, ref } from 'vue';
 import { CloudOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
 
-import LayoutHeaderMenu from './LayoutHeaderMenu.vue';
-import LayoutContent from './LayoutContent.vue';
+import AppTools from './AppTools.vue';
+import AppContent from './AppContent.vue';
 
 export default defineComponent({
-    name: "LayoutSider",
-    components: { CloudOutlined, MenuUnfoldOutlined, MenuFoldOutlined, LayoutHeaderMenu, LayoutContent },
+    name: "AppLayout",
+    components: { CloudOutlined, MenuUnfoldOutlined, MenuFoldOutlined, AppTools, AppContent },
 
     setup () {
         return {
@@ -111,18 +109,6 @@ export default defineComponent({
     methods: {
         titleClick (e: Event) {
             console.log('titleClick', e);
-        },
-
-        menuItemClick (key: string) {
-            // if (this.menus.indexOf(key) === -1) {
-            //     this.menus.push(key);
-            // }
-            // this.menus.indexOf(key) === -1
-            //     ? this.menus.push(key)
-            //     : null;
-
-            this.menu = key;
-            // console.log(this.menus);
         }
     }
 });
@@ -131,39 +117,39 @@ export default defineComponent({
 <style scoped lang="scss">
     .app-layout {
         min-height: 100vh;
-    .trigger {
-        font-size: 18px;
-        line-height: 64px;
-        padding: 0 24px;
-        cursor: pointer;
-        transition: color 0.3s;
+        .trigger {
+            font-size: 18px;
+            line-height: 64px;
+            padding: 0 24px;
+            cursor: pointer;
+            transition: color 0.3s;
 
-    &:hover {
-         color: #1890ff;
-     }
-    }
+            &:hover {
+                color: #1890ff;
+            }
+        }
 
-    .app-title {
+        .app-title {
 
-        height: 40px;
-        overflow: hidden;
-        margin: 16px;
-        color: #ffffff;
-    .logo {
-        font-size: 40px;
-        margin-right: 5px;
-    }
-    .title {
-        font-size: 25px;
-        vertical-align: 5px;
-    }
-    }
+            height: 40px;
+            overflow: hidden;
+            margin: 16px;
+            color: #ffffff;
+            .logo {
+                font-size: 40px;
+                margin-right: 5px;
+            }
+            .title {
+                font-size: 25px;
+                vertical-align: 5px;
+            }
+        }
 
-    /*.app-layout-sider {*/
-    /*    position: fixed;*/
-    /*    left: 0;*/
-    /*    height: 100vh;*/
-    /*    overflow: auto;*/
-    /*}*/
+        /*.app-layout-sider {*/
+        /*    position: fixed;*/
+        /*    left: 0;*/
+        /*    height: 100vh;*/
+        /*    overflow: auto;*/
+        /*}*/
     }
 </style>

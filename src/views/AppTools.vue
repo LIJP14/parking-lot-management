@@ -80,7 +80,7 @@ import { ReloadOutlined, TagOutlined, CloseOutlined, FullscreenOutlined, Fullscr
         DownOutlined
     }
 })
-export default class LayoutHeaderMenu extends Vue {
+export default class AppTools extends Vue {
     currentUser = '';
 
 
