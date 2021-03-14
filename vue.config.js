@@ -1,4 +1,11 @@
 module.exports = {
+    pages: {
+        index: {
+            entry: 'src/main',
+            title: '车场管理'
+        }
+    },
+
     devServer: {
         host: 'localhost' // http://localhost:8080/sockjs-node/info
         // host: '0.0.0.0', // http://192.168.*.*:8080/sockjs-node/info

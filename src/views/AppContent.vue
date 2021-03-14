@@ -16,7 +16,7 @@
         <a-tab-pane
             v-for="(pane) in cachedRoutes"
             :key="pane"
-            :tab="pane"
+            :tab="$RoutesConfig[pane].alias"
         />
 
         <!--todo 暂时不删-->
@@ -38,7 +38,6 @@
     </a-tabs>
 
     <div class="tab-pane-content">
-        {{ cachedRoutes }}
         <router-view v-slot="{ Component }">
             <keep-alive :include="cachedRoutes" :exclude="['Home']">
                 <component :is="Component" />

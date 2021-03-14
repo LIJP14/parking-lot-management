@@ -3,6 +3,10 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+// 全局变量
+import routesConfig from "./router/routesConfig";
+
+// 全局 css
 import './styles/index.scss';
 import {
     Button,
@@ -20,6 +24,7 @@ import {
     Tabs,
     Tag
 } from "ant-design-vue";
+
 
 
 const app = createApp(App);
@@ -41,6 +46,10 @@ app.use(Button)
     .use(Table)
     .use(Tabs)
     .use(Tag);
+
+
+// 全局变量
+app.config.globalProperties.$RoutesConfig = routesConfig;
 
 
 app.mount('#app');

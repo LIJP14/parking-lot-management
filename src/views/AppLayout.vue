@@ -16,8 +16,9 @@
                 v-model:openKeys="openKeys"
                 theme="dark"
                 mode="inline"
-                :inline-collapsed="false">
-                <a-sub-menu key="sub1" @titleClick="titleClick" >
+                :inline-collapsed="true"
+            >
+                <a-sub-menu key="sub0">
                     <template #title>
                             <span>
                                 <span class="anticon">
@@ -30,32 +31,21 @@
                             </span>
                     </template>
 
-                    <a-sub-menu key="sub1-1" title="车场管理" @titleClick="titleClick" >
-                        <a-menu-item key="1">
-                            <router-link to="/parking-lot/management">车场信息</router-link>
-                        </a-menu-item>
-                        <a-menu-item key="2">
-                            <router-link to="/lane/management">车道管理</router-link>
-                        </a-menu-item>
-                    </a-sub-menu>
 
-
-                    <a-sub-menu key="sub1-2" title="记录查询" @titleClick="titleClick" >
-                        <a-menu-item key="3">
-                            <router-link to="/usage-record">出入场记录</router-link>
-                        </a-menu-item>
-                        <a-menu-item key="4">
-                            <router-link to="/open-gate-record">远程开闸记录</router-link>
+                    <a-sub-menu
+                        v-for="item of subMenu"
+                        :key="item.key"
+                        :title="item.title"
+                    >
+                        <a-menu-item
+                            v-for="menuItem of item.menuItem"
+                            :key="menuItem.key"
+                        >
+                            <router-link v-if="$RoutesConfig[menuItem.key]" :to="{ name: menuItem.key }">{{ menuItem.title }}</router-link>
+                            <span v-else>{{ menuItem.title }}</span>
                         </a-menu-item>
                     </a-sub-menu>
 
-                    <a-sub-menu key="sub1-3" title="用户管理" @titleClick="titleClick" >
-                        <a-menu-item key="5">用户管理</a-menu-item>
-                    </a-sub-menu>
-
-                    <a-sub-menu key="sub1-4" title="统计信息" @titleClick="titleClick" >
-                        <a-menu-item key="6">车牌号统计</a-menu-item>
-                    </a-sub-menu>
                 </a-sub-menu>
             </a-menu>
         </a-layout-sider>
@@ -63,12 +53,15 @@
         <!--:style="{'margin-left': collapsed ? '80px' : '200px'}"-->
         <a-layout>
             <a-layout-header style="background: #fff; padding: 0">
-                <menu-unfold-outlined
-                    v-if="collapsed"
-                    class="trigger"
-                    @click="() => (collapsed = !collapsed)"
-                />
-                <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
+                <a-button
+                    type="primary"
+                    @click="toggleCollapsed"
+                    style="margin-left: 10px;padding: 0 10px;"
+                >
+                    <MenuUnfoldOutlined v-if="collapsed" />
+                    <MenuFoldOutlined v-else />
+                </a-button>
+                {{ selectedKeys }}  --  {{ openKeys }}
 
                 <app-tools style="float: right;"></app-tools>
             </a-layout-header>
@@ -94,21 +87,74 @@ export default defineComponent({
 
     setup () {
         return {
-            selectedKeys: ref<string[]>(['sub1']),
-            openKeys: ref<string[]>(['sub1', 'sub1-1']),
+            selectedKeys: ref<string[]>([]),
             collapsed: ref<boolean>(false)
         };
     },
 
     data () {
         return {
-            menu: ''
+            openKeys: ['sub0'],
+            preOpenKeys: ['sub0'],
+            subMenu: [
+                {
+                    key: 'sub0-0',
+                    title: '车场管理',
+                    menuItem: [
+                        { key: 'ParkingLotManagement', title: '车场信息' },
+                        { key: 'LaneManagement', title: this.$RoutesConfig.LaneManagement.alias }
+                    ]
+                },
+                {
+                    key: 'sub0-1',
+                    title: '记录查询',
+                    menuItem: [
+                        { key: 'UsageRecord', title: this.$RoutesConfig.UsageRecord.alias },
+                        { key: 'OpenGateRecord', title: this.$RoutesConfig.OpenGateRecord.alias }
+                    ]
+                },
+                {
+                    key: 'sub0-2',
+                    title: '用户管理',
+                    menuItem: [
+                        { key: 'userManagement', title: '用户管理' }
+                    ]
+                },
+                {
+                    key: 'sub0-3',
+                    title: '统计信息',
+                    menuItem: [
+                        { key: 'carNumber', title: '车牌号统计' }
+                    ]
+                }
+            ]
         };
     },
 
+    created () {
+        for (let i = 0; i < this.subMenu.length; i++) {
+            this.openKeys.push(this.subMenu[i].key);
+        }
+    },
+
+    watch: {
+        $route () {
+            if (this.$route.name) {
+                this.selectedKeys[0] = this.$route.name as string;
+            }
+        }
+    },
+
     methods: {
-        titleClick (e: Event) {
-            console.log('titleClick', e);
+        toggleCollapsed () {
+            this.collapsed = !this.collapsed;
+
+            if (this.collapsed) {
+                this.preOpenKeys = this.openKeys;
+                this.openKeys = [];
+            } else {
+                this.openKeys = this.preOpenKeys;
+            }
         }
     }
 });
@@ -125,7 +171,7 @@ export default defineComponent({
             transition: color 0.3s;
 
             &:hover {
-                color: #1890ff;
+                color: #3db389;
             }
         }
 
