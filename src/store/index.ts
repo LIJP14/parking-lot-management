@@ -1,18 +1,20 @@
-import { createStore, StoreOptions } from 'vuex';
+import { ModuleTree, createStore, StoreOptions } from 'vuex';
 
-import routeCache from './route-cache';
+import { RouteCacheState } from "./route-cache/state";
+import { routeCache } from './route-cache';
 
-export default createStore({
-    state: {
-    },
-    mutations: {
-    },
-    actions: {
-    },
-    modules: {
-        routeCache
-    }
-});
+
+export interface RootState {
+    routeCache: RouteCacheState;
+}
+
+const modules: ModuleTree<RootState> = {
+    routeCache
+};
+const options: StoreOptions<RootState> = {
+    modules
+};
+export default createStore(options);
 
 
 

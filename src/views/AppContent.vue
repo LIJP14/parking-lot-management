@@ -51,7 +51,7 @@ import { Options, Vue } from 'vue-class-component';
 
 import { HomeOutlined, DownOutlined } from '@ant-design/icons-vue';
 
-import { Payload } from '@/store/route-cache';
+import { Payload } from '@/store/route-cache/mutations';
 
 
 @Options({
@@ -131,7 +131,7 @@ export default class AppContent extends Vue {
     }
 
     tabChange (activeKey: string) {
-        console.log(activeKey);
+        console.log('tabChange', activeKey);
     }
 };
 </script>

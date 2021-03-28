@@ -1,59 +1,52 @@
-interface State {
-    cachedRoutes: Array<string>;
-}
+// interface State {
+//     cachedRoutes: Array<string>;
+// }
+//
+// export interface Payload {
+//     route: string;
+// }
+//
+// const state: State = {
+//     cachedRoutes: []
+// };
+//
+// export default {
+//     namespaced: true,
+//     state,
+//     mutations: {
+//         // 添加新路由
+//         addCachedRoute (state: State, payload: Payload): void {
+//             const index = state.cachedRoutes.indexOf(payload.route);
+//
+//             if (index === -1) {
+//                 state.cachedRoutes.push(payload.route);
+//                 // return;
+//             }
+//         },
+//
+//         // 删除已缓存的单个路由
+//         delCachedRoute (state: State, payload: Payload): void {
+//             const index = state.cachedRoutes.indexOf(payload.route);
+//             if (index !== -1) {
+//                 state.cachedRoutes.splice(index, 1);
+//             }
+//         }
+//     }
+//
+// };
 
-export interface Payload {
-    route: string;
-}
+import { Module } from 'vuex';
+import { RootState } from "@/store";
+import { RouteCacheState, routeCacheState } from "@/store/route-cache/state";
+import { routeCacheMutations } from '@/store/route-cache/mutations';
 
-const state: State = {
-    cachedRoutes: []
-};
 
-export default {
+
+export const routeCache: Module<RouteCacheState, RootState> = {
     namespaced: true,
-    state,
-    mutations: {
-        // 添加新路由
-        addCachedRoute (state: State, payload: Payload): void {
-            const index = state.cachedRoutes.indexOf(payload.route);
-
-            if (index === -1) {
-                state.cachedRoutes.push(payload.route);
-                // return;
-            }
-        },
-
-        // 删除已缓存的单个路由
-        delCachedRoute (state: State, payload: Payload): void {
-            const index = state.cachedRoutes.indexOf(payload.route);
-            if (index !== -1) {
-                state.cachedRoutes.splice(index, 1);
-            }
-        }
-    }
-
+    state: routeCacheState,
+    mutations: routeCacheMutations
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
